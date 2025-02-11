@@ -145,7 +145,7 @@ function selectOption(option) {
         else if (noClick == 3) {
             moveButtonRandomly();
         }
-        else if (noClick == 5){
+        else if (noClick == 4){
             document.getElementById('no-button').innerText = 'Can you say now now?'
             startBouncingMovement();
         }
