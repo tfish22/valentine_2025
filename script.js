@@ -1,4 +1,26 @@
-// script.js
+localStorage// script.js
+let noClick = 0;
+
+function getRandomPosition() {
+    // Get viewport dimensions, accounting for button size
+    const maxX = window.innerWidth - 100; // 100px for button width
+    const maxY = window.innerHeight - 50; // 50px for button height
+    
+    return {
+        x: Math.max(0, Math.floor(Math.random() * maxX)),
+        y: Math.max(0, Math.floor(Math.random() * maxY))
+    };
+}
+
+function moveButtonRandomly() {
+    const button = document.getElementById('no-button');
+    const pos = getRandomPosition();
+    
+    button.style.position = 'fixed'; // Make the button position absolute
+    button.style.left = pos.x + 'px';
+    button.style.top = pos.y + 'px';
+}
+
 
 // Function to handle button click events
 function selectOption(option) {
@@ -10,13 +32,24 @@ function selectOption(option) {
             displayCatHeart(); // Display the cat-heart.gif
         });
     } else if (option === 'no') {
+        noClick++;
         // Change text on the "No" button to "You sure?"
-        document.getElementById('no-button').innerText = 'You sure?'; 
+        if (noClick == 1) {
+            document.getElementById('no-button').innerText = 'You sure?'; 
+        }
+        else if (noClick == 2) {
+            document.getElementById('no-button').innerText = 'Are you really really sure?'
+        }
+        else {
+            moveButtonRandomly();
+        }
+
         // Increase font size of "Yes" button
-        var yesButton = document.getElementById('yes-button');
-        var currentFontSize = window.getComputedStyle(yesButton).getPropertyValue('font-size');
-        var newSize = parseFloat(currentFontSize) * 2; // Increase font size by  * 2px
-        yesButton.style.fontSize = newSize + 'px';
+        // var yesButton = document.getElementById('yes-button');
+        // var currentFontSize = window.getComputedStyle(yesButton).getPropertyValue('font-size');
+        // var newSize = parseFloat(currentFontSize) * 2; // Increase font size by  * 2px
+        // yesButton.style.fontSize = newSize + 'px
+
     } else {
         // If neither "Yes" nor "No" was clicked, show an alert message
         alert('Invalid option!');
