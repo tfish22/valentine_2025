@@ -1,5 +1,90 @@
 localStorage// script.js
 let noClick = 0;
+let animationId = null;
+
+// Button movement state
+let velocity = {
+    x: 5,
+    y: 3
+};
+
+// Function to get random velocity
+function getRandomVelocity() {
+    const speed = 5;
+    const angle = Math.random() * 2 * Math.PI;
+    return {
+        x: Math.cos(angle) * speed,
+        y: Math.sin(angle) * speed
+    };
+}
+
+// Function to move and bounce button
+function animateButton() {
+    const button = document.getElementById('no-button');
+    const buttonWidth = button.offsetWidth;
+    const buttonHeight = button.offsetHeight;
+    
+    // Get current position
+    let posX = parseFloat(button.style.left) || 0;
+    let posY = parseFloat(button.style.top) || 0;
+    
+    // Update position
+    posX += velocity.x;
+    posY += velocity.y;
+    
+    // Check for collision with window edges
+    if (posX <= 0 || posX + buttonWidth >= window.innerWidth) {
+        velocity.x = -velocity.x; // Reverse horizontal direction
+        // Add some randomness to vertical velocity on collision
+        velocity.y += (Math.random() - 0.5) * 2;
+    }
+    
+    if (posY <= 0 || posY + buttonHeight >= window.innerHeight) {
+        velocity.y = -velocity.y; // Reverse vertical direction
+        // Add some randomness to horizontal velocity on collision
+        velocity.x += (Math.random() - 0.5) * 2;
+    }
+    
+    // Keep velocity in check
+    const maxSpeed = 8;
+    const minSpeed = 3;
+    const currentSpeed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+    if (currentSpeed > maxSpeed) {
+        velocity.x = (velocity.x / currentSpeed) * maxSpeed;
+        velocity.y = (velocity.y / currentSpeed) * maxSpeed;
+    } else if (currentSpeed < minSpeed) {
+        velocity.x = (velocity.x / currentSpeed) * minSpeed;
+        velocity.y = (velocity.y / currentSpeed) * minSpeed;
+    }
+    
+    // Apply position
+    button.style.position = 'fixed';
+    button.style.left = posX + 'px';
+    button.style.top = posY + 'px';
+    
+    // Continue animation
+    animationId = requestAnimationFrame(animateButton);
+}
+
+// Function to start bouncing movement
+function startBouncingMovement() {
+    const button = document.getElementById('no-button');
+    button.style.position = 'fixed';
+    
+    // Set initial position if not set
+    if (!button.style.left) {
+        button.style.left = (window.innerWidth / 2) + 'px';
+    }
+    if (!button.style.top) {
+        button.style.top = (window.innerHeight / 2) + 'px';
+    }
+    
+    // Set initial random velocity
+    velocity = getRandomVelocity();
+    
+    // Start the animation
+    animateButton();
+}
 
 function getRandomPosition() {
     // Get viewport dimensions, accounting for button size
@@ -26,6 +111,11 @@ function moveButtonRandomly() {
 function selectOption(option) {
     // Check which option was clicked
     if (option === 'yes') {
+
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+        }
+
         // Flash rainbow colors
         flashRainbowColors(function() {
             document.getElementById('question').style.display = 'none'; // Hide the question
@@ -40,9 +130,14 @@ function selectOption(option) {
         else if (noClick == 2) {
             document.getElementById('no-button').innerText = 'Are you really really sure?'
         }
-        else {
+        else if (noClick == 3) {
             moveButtonRandomly();
         }
+        else{
+            document.getElementById('no-button').innerText = 'Can you say now now?'
+            startBouncingMovement();
+        }
+        
 
         // Increase font size of "Yes" button
         // var yesButton = document.getElementById('yes-button');
@@ -55,6 +150,31 @@ function selectOption(option) {
         alert('Invalid option!');
     }
 }
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    const button = document.getElementById('no-button');
+    const buttonWidth = button.offsetWidth;
+    const buttonHeight = button.offsetHeight;
+    
+    // Keep button in bounds when window is resized
+    const posX = parseFloat(button.style.left);
+    const posY = parseFloat(button.style.top);
+    
+    if (posX + buttonWidth > window.innerWidth) {
+        button.style.left = (window.innerWidth - buttonWidth) + 'px';
+    }
+    if (posY + buttonHeight > window.innerHeight) {
+        button.style.top = (window.innerHeight - buttonHeight) + 'px';
+    }
+});
+
+// Clean up animation when page unloads
+window.addEventListener('unload', () => {
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+    }
+});
 
 // Function to flash rainbow colors and then execute a callback function
 function flashRainbowColors(callback) {
