@@ -4,18 +4,36 @@ let animationId = null;
 
 // Button movement state
 let velocity = {
-    x: 5,
-    y: 3
+    x: 2,
+    y: 2
 };
 
 // Function to get random velocity
 function getRandomVelocity() {
-    const speed = 5;
+    const speed = 2;
     const angle = Math.random() * 2 * Math.PI;
     return {
         x: Math.cos(angle) * speed,
         y: Math.sin(angle) * speed
     };
+}
+
+// Function to handle final state
+function activateFinalState() {
+    // Stop the animation
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+    }
+    
+    // Remove the No button
+    const noButton = document.getElementById('no-button');
+    noButton.style.display = 'none';
+    
+    // Update and enlarge Yes button
+    const yesButton = document.getElementById('yes-button');
+    yesButton.innerText = 'YESSS!!!!';
+    yesButton.style.fontSize = '48px'; // Make it extra large
+    yesButton.style.padding = '20px 40px'; // Make the button bigger overall
 }
 
 // Function to move and bounce button
@@ -46,16 +64,10 @@ function animateButton() {
     }
     
     // Keep velocity in check
-    const maxSpeed = 8;
-    const minSpeed = 3;
+    const speed = 2;
     const currentSpeed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-    if (currentSpeed > maxSpeed) {
-        velocity.x = (velocity.x / currentSpeed) * maxSpeed;
-        velocity.y = (velocity.y / currentSpeed) * maxSpeed;
-    } else if (currentSpeed < minSpeed) {
-        velocity.x = (velocity.x / currentSpeed) * minSpeed;
-        velocity.y = (velocity.y / currentSpeed) * minSpeed;
-    }
+    velocity.x = (velocity.x / currentSpeed) * speed;
+    velocity.y = (velocity.y / currentSpeed) * speed;
     
     // Apply position
     button.style.position = 'fixed';
@@ -133,9 +145,12 @@ function selectOption(option) {
         else if (noClick == 3) {
             moveButtonRandomly();
         }
-        else{
+        else if (noClink == 5){
             document.getElementById('no-button').innerText = 'Can you say now now?'
             startBouncingMovement();
+        }
+        else {
+            activateFinalState();
         }
         
 
