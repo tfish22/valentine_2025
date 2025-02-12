@@ -82,6 +82,10 @@ function animateButton() {
 function startBouncingMovement() {
     const button = document.getElementById('no-button');
     button.style.position = 'fixed';
+
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+    }
     
     // Set initial position if not set
     if (!button.style.left) {
