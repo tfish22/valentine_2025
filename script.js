@@ -242,21 +242,29 @@ function displayCatHeart() {
     catHeartImage.alt = 'Cat Heart';
     // When the cat-heart image is fully loaded, add it to the image container
 
-    var textBox = document.createElement('input');
-    textBox.type = 'text';
-    textBox.placeholder = 'Enter your response...';
-    
-    // Apply button-like styling
-    textBox.style.fontSize = '24px';
-    textBox.style.padding = '10px 20px';
-    textBox.style.border = '2px solid black';
-    textBox.style.borderRadius = '10px';
-    textBox.style.display = 'block'; // Ensure it appears as a block element
-    textBox.style.margin = '20px auto'; // Centering
-    textBox.style.textAlign = 'center';
+    // Function to create styled text boxes
+    function createTextBox(text) {
+        const textBox = document.createElement('div');
+        textBox.innerText = text;
+        textBox.style.fontSize = '24px';
+        textBox.style.padding = '10px 20px';
+        textBox.style.border = '2px solid black';
+        textBox.style.borderRadius = '10px';
+        textBox.style.display = 'block';
+        textBox.style.margin = '20px auto';
+        textBox.style.textAlign = 'center';
+        textBox.style.backgroundColor = '#f8f8f8'; // Light background
+        textBox.style.width = 'fit-content'; // Adjust to text size
+        textBox.style.fontFamily = 'Sacramento, cursive'; // Matches romantic theme
+        return textBox;
+    }
+
+    const messageBox1 = createTextBox('Aww thank you Baby! I Love you so much');
+    const messageBox2 = createTextBox('Love - Rogan <3');
 
     imageContainer.appendChild(catHeartImage);
-    imageContainer.appendChild(textBox);
+    imageContainer.appendChild(messageBox1);
+    imageContainer.appendChild(messageBox2);
     // Hide the options container
     document.getElementById('options').style.display = 'none';
 
