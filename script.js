@@ -241,6 +241,20 @@ function displayCatHeart() {
     // Set alternative text for the image (for accessibility)
     catHeartImage.alt = 'Cat Heart';
     // When the cat-heart image is fully loaded, add it to the image container
+
+    var textBox = document.createElement('input');
+    textBox.type = 'text';
+    textBox.placeholder = 'Enter your response...';
+    
+    // Apply button-like styling
+    textBox.style.fontSize = '24px';
+    textBox.style.padding = '10px 20px';
+    textBox.style.border = '2px solid black';
+    textBox.style.borderRadius = '10px';
+    textBox.style.display = 'block'; // Ensure it appears as a block element
+    textBox.style.margin = '20px auto'; // Centering
+    textBox.style.textAlign = 'center';
+
     catHeartImage.onload = function() {
         imageContainer.appendChild(catHeartImage);
         // Hide the options container
