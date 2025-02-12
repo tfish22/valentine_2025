@@ -149,7 +149,7 @@ function selectOption(option) {
             document.getElementById('no-button').innerText = 'Can you say now now?'
             startBouncingMovement();
         }
-        else {
+        else if (noClick == 5){
             activateFinalState();
         }
         
