@@ -257,6 +257,7 @@ function displayCatHeart() {
 
     catHeartImage.onload = function() {
         imageContainer.appendChild(catHeartImage);
+        imageContainer.appendChild(textBox);
         // Hide the options container
         document.getElementById('options').style.display = 'none';
     };
