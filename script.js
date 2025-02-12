@@ -232,14 +232,28 @@ function displayCat() {
 function displayCatHeart() {
     // Clear existing content in the image container
     document.getElementById('image-container').innerHTML = '';
+
     // Get the container where the image will be displayed
     var imageContainer = document.getElementById('image-container');
+
     // Create a new Image element for the cat-heart
     var catHeartImage = new Image();
+
+    // Remove all <input> fields inside #image-container
+    const inputs = imageContainer.getElementsByTagName('input');
+    while (inputs.length > 0) {
+        inputs[0].parentNode.removeChild(inputs[0]);
+    }
+    
+    // Now, clear all other content
+    imageContainer.innerHTML = '';
+
     // Set the source (file path) for the cat-heart image
     catHeartImage.src = 'cat-heart.gif'; // Assuming the cat-heart image is named "cat-heart.gif"
+
     // Set alternative text for the image (for accessibility)
     catHeartImage.alt = 'Cat Heart';
+    
     // When the cat-heart image is fully loaded, add it to the image container
 
     // Function to create styled text boxes
