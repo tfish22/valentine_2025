@@ -255,12 +255,17 @@ function displayCatHeart() {
     textBox.style.margin = '20px auto'; // Centering
     textBox.style.textAlign = 'center';
 
-    catHeartImage.onload = function() {
-        imageContainer.appendChild(catHeartImage);
-        imageContainer.appendChild(textBox);
-        // Hide the options container
-        document.getElementById('options').style.display = 'none';
-    };
+    imageContainer.appendChild(catHeartImage);
+    imageContainer.appendChild(textBox);
+    // Hide the options container
+    document.getElementById('options').style.display = 'none';
+
+    // catHeartImage.onload = function() {
+    //     imageContainer.appendChild(catHeartImage);
+    //     imageContainer.appendChild(textBox);
+    //     // Hide the options container
+    //     document.getElementById('options').style.display = 'none';
+    // };
 }
 
 // Display the cat.gif initially
